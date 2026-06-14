@@ -144,23 +144,48 @@ if (quiz) {
 }
 
 const applyForm = document.querySelector("[data-apply-form]");
+
 if (applyForm) {
-  applyForm.addEventListener("submit", (event) => {
+  applyForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+
     const form = event.currentTarget;
     const status = document.querySelector("[data-form-status]");
-    const data = Object.fromEntries(new FormData(form));
-    const hasConsent = form.elements.consent.checked;
+    const formData = new FormData(form);
+
+    const name = formData.get("name").trim();
+    const email = formData.get("email").trim();
+    const consent = form.elements.consent.checked;
 
     status.classList.remove("error");
-    if (!data.name?.trim() || !data.email?.trim() || !hasConsent) {
+
+    if (!name || !email || !consent) {
       status.classList.add("error");
-      status.textContent = "Заполните имя, email и подтвердите, что форма демонстрационная.";
+      status.textContent = "Заполните имя, email и подтвердите согласие на обработку данных.";
       return;
     }
 
-    localStorage.setItem("psychoanalysis-school-demo-application", JSON.stringify({ ...data, consent: hasConsent }));
-    status.textContent = "Демонстрационная заявка сохранена в браузере. Для реального проекта нужно подключить сервис отправки форм.";
-    form.reset();
+    status.textContent = "Отправляем заявку...";
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          Accept: "application/json"
+        }
+      });
+
+      if (response.ok) {
+        status.textContent = "Спасибо. Заявка отправлена.";
+        form.reset();
+      } else {
+        status.classList.add("error");
+        status.textContent = "Не удалось отправить заявку. Попробуйте ещё раз.";
+      }
+    } catch (error) {
+      status.classList.add("error");
+      status.textContent = "Ошибка соединения. Проверьте интернет и попробуйте снова.";
+    }
   });
 }

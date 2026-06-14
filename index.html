@@ -230,17 +230,24 @@
         <div>
           <p class="eyebrow">Заявка</p>
           <h2>Подберите программу обучения</h2>
-          <p>Заполните короткую форму, чтобы увидеть демонстрационный сценарий обработки заявки. В этой версии данные не отправляются на сервер и не передаются специалисту.</p>
-          <p class="form-note">Для реального проекта потребуется подключить Formspree, Netlify Forms, EmailJS, Telegram-бота или собственный backend, а также добавить политику обработки данных.</p>
+<p>
+  Заполните короткую форму, чтобы отправить заявку. Ответственный специалист
+  сможет связаться с вами по указанному email или телефону.
+</p>
+
+<p class="form-note">
+  Нажимая кнопку отправки, вы подтверждаете согласие на обработку данных
+  для ответа на заявку.
+</p>
         </div>
-        <form class="apply-form" name="application" data-apply-form novalidate>
+        <form class="apply-form" name="application" action="https://formspree.io/f/mwvjaogw" method="POST" data-apply-form novalidate>
           <label><span>Имя</span><input name="name" required placeholder="Ваше имя" /></label>
           <label><span>Email</span><input name="email" type="email" required placeholder="name@example.com" /></label>
           <label><span>Телефон</span><input name="phone" type="tel" placeholder="+7 900 000-00-00" /></label>
           <label><span>Интерес</span><select name="interest"><option>Введение в психоанализ</option><option>Клинические семинары</option><option>Детский анализ</option><option>Психоанализ культуры</option></select></label>
           <label><span>Опыт</span><select name="experience"><option>Начинаю изучать тему</option><option>Есть психологическое образование</option><option>Веду практику</option></select></label>
           <label><span>Комментарий</span><textarea name="message" rows="4" placeholder="Расскажите, что хотите изучать или какой формат вам удобен"></textarea></label>
-          <label class="checkbox"><input name="consent" type="checkbox" required /><span>Понимаю, что форма демонстрационная и данные не отправляются специалисту</span></label>
+          <label class="checkbox"><input name="consent" type="checkbox" required /><span>Согласен на обработку данных для ответа на заявку</span></label>
           <button class="button primary" type="submit">Проверить заявку</button>
           <p class="form-status" data-form-status role="status"></p>
         </form>
